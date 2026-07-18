@@ -1,0 +1,57 @@
+<header class="hud-header" id="hud-header">
+  <!-- Scan line effect -->
+  <div class="scan-line"></div>
+  <div class="scan-line scan-line-2"></div>
+
+  <!-- Ambient corner decorations -->
+  <div class="corner-deco top-left"></div>
+  <div class="corner-deco top-right"></div>
+
+  <!-- Top row: Logo + Theme/Time -->
+  <div class="hud-top-row">
+    <div class="hud-left">
+      <div class="hud-logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-icon">{{ themeIcon }}</span>
+        <span class="logo-text">{{ personality.headerTitle }}</span>
+        <span class="logo-bracket">]</span>
+      </div>
+      <div class="hud-subtitle">{{ personality.headerSubtitle }}</div>
+    </div>
+
+    <div class="hud-right">
+      <div class="hud-right-row">
+        <button class="settings-btn" (click)="openSettings()" title="API Settings">⛭</button>
+        <app-profile-settings></app-profile-settings>
+        <app-theme-selector></app-theme-selector>
+        <div class="time-display">
+          <span class="time-label">SYS.TIME</span>
+          <span class="time-value">{{ currentTime }}</span>
+        </div>
+      </div>
+      <div class="hud-subtitle right-sub">{{ personality.footerTag }}</div>
+    </div>
+  </div>
+
+  <!-- Bottom row: Status readouts -->
+  <div class="hud-status-row">
+    <div class="status-block">
+      <span class="status-label">{{ personality.statusLabel }}</span>
+      <span class="status-dot" [class.online]="apiConnected" [class.offline]="!apiConnected"></span>
+      <span class="status-value" [class.highlight]="apiConnected">{{ apiConnected ? 'CONNECTED' : 'DISCONNECTED' }}</span>
+    </div>
+    <div class="status-divider"></div>
+    <div class="status-block">
+      <span class="status-label">AI STATUS</span>
+      <span class="status-value highlight" [class.busy-text]="aiTyping">{{ aiTyping ? personality.statusBusy : personality.statusReady }}</span>
+    </div>
+    <div class="status-divider"></div>
+    <div class="status-block">
+      <span class="status-label">AI ENTITY</span>
+      <span class="status-value ai-name">{{ personality.aiName }}</span>
+    </div>
+  </div>
+
+  <!-- Bottom border glow -->
+  <div class="hud-border-glow"></div>
+</header>

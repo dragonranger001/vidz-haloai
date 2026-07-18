@@ -1,0 +1,233 @@
+<!-- Minimized button -->
+@if (!isOpen) {
+  <button class="chat-fab lan-fab" (click)="togglePanel()" id="btn-lan-chat-toggle">
+    <span class="fab-icon">⬡</span>
+    <span class="fab-label">{{ lanFabLabel }}</span>
+    @if (unreadCount > 0) {
+      <span class="fab-badge">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
+    }
+    @if (isConnected) {
+      <span class="fab-status connected"></span>
+    }
+  </button>
+}
+
+<!-- Chat panel -->
+@if (isOpen) {
+  <div class="chat-panel halo-panel" id="lan-chat-panel">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="chat-icon">⬡</span>
+        <span class="chat-title">{{ lanTitle }}</span>
+        <span class="connection-dot" [class.online]="isConnected"></span>
+      </div>
+
+      @if (isConnected) {
+        <!-- Channel selector -->
+        <button class="channel-btn" (click)="toggleChannelMenu()" id="btn-lan-channel-switch">
+          <span class="channel-name">{{ getActiveChannelName() }}</span>
+          <span class="channel-chevron" [class.open]="isChannelMenuOpen">▾</span>
+        </button>
+      }
+
+      <button class="chat-minimize" (click)="togglePanel()" id="btn-lan-chat-minimize">─</button>
+    </div>
+
+    <!-- Connection bar (when disconnected) -->
+    @if (!isConnected) {
+      <div class="connect-bar">
+        <div class="connect-label">CONNECT TO SERVER</div>
+        <div class="connect-row">
+          <input
+            type="text"
+            class="connect-input halo-input"
+            [(ngModel)]="serverUrl"
+            (keydown.enter)="connectToServer()"
+            placeholder="https://your-server.onrender.com"
+            autocomplete="off"
+            id="lan-server-input" />
+          <button
+            class="connect-btn"
+            (click)="connectToServer()"
+            [disabled]="!serverUrl.trim()"
+            id="btn-lan-connect">
+            ⟐
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Connection info bar (when connected) -->
+    @if (isConnected) {
+      <div class="connected-bar">
+        <span class="connected-label">● ONLINE</span>
+        <span class="connected-peers">{{ peers.length }} PEERS</span>
+        <button class="disconnect-btn" (click)="disconnectFromServer()" title="Disconnect">✕</button>
+      </div>
+    }
+
+    <!-- Channel dropdown -->
+    @if (isChannelMenuOpen && isConnected) {
+      <div class="channel-dropdown">
+        <div class="channel-section-label">CHANNELS</div>
+        @for (channel of channels; track trackChannel($index, channel)) {
+          <button
+            class="channel-item"
+            [class.active]="channel.id === activeChannel && !showBookmarks"
+            (click)="selectChannel(channel.id)">
+            <span class="channel-item-icon">{{ channel.type === 'group' ? '⬡' : '◇' }}</span>
+            <span class="channel-item-name">{{ channel.name }}</span>
+            @if (channel.unread > 0) {
+              <span class="channel-item-badge">{{ channel.unread }}</span>
+            }
+          </button>
+        }
+
+        @if (peers.length > 0) {
+          <div class="channel-section-label">DIRECT MESSAGE</div>
+          @for (peer of peers; track peer.id) {
+            <button class="channel-item" (click)="openDm(peer)">
+              <span class="channel-item-icon">◇</span>
+              <span class="channel-item-name">{{ peer.name }}</span>
+              <span class="peer-conn-state" [class.p2p]="getPeerConnectionState(peer.id) === 'P2P'">
+                {{ getPeerConnectionState(peer.id) }}
+              </span>
+            </button>
+          }
+        }
+
+        <!-- Bookmarks entry -->
+        <div class="channel-section-label">SAVED</div>
+        <button
+          class="channel-item"
+          [class.active]="showBookmarks"
+          (click)="showBookmarkView()">
+          <span class="channel-item-icon">📌</span>
+          <span class="channel-item-name">Bookmarks</span>
+          @if (bookmarks.length > 0) {
+            <span class="channel-item-badge bookmark-badge">{{ bookmarks.length }}</span>
+          }
+        </button>
+      </div>
+    }
+
+    <!-- Messages -->
+    <div class="chat-messages" [ngClass]="'font-' + (profileService.profile.chatFontSize || 'medium')" #messageList>
+      <!-- Not connected state -->
+      @if (!isConnected) {
+        <div class="chat-empty">
+          <div class="empty-icon">⬡</div>
+          <div class="empty-text">NOT CONNECTED</div>
+          <div class="empty-hint">Enter a server URL above to join a LAN channel</div>
+        </div>
+      }
+
+      <!-- Connected: Normal message view -->
+      @if (isConnected && !showBookmarks) {
+        @if (messages.length === 0) {
+          <div class="chat-empty">
+            <div class="empty-icon">⬡</div>
+            <div class="empty-text">NO TRANSMISSIONS</div>
+            <div class="empty-hint">Begin communication on this channel</div>
+          </div>
+        }
+
+        @for (msg of messages; track trackMessage($index, msg)) {
+          @if (msg.type === 'system') {
+            <div class="msg-system">
+              <span class="msg-system-text">{{ msg.text }}</span>
+            </div>
+          } @else {
+            <div class="msg-bubble" [class.own]="msg.isOwn === true" [class.other]="msg.isOwn === false">
+              @if (msg.isOwn === false) {
+                <div class="msg-sender">{{ msg.senderName }}</div>
+              }
+              <div class="msg-text">{{ msg.text }}</div>
+              <div class="msg-footer">
+                <span class="msg-time">{{ formatTime(msg.timestamp) }}</span>
+                <button
+                  class="bookmark-btn"
+                  [class.is-bookmarked]="isBookmarked(msg)"
+                  (click)="toggleBookmark($event, msg)"
+                  title="Bookmark message">
+                  {{ isBookmarked(msg) ? '📌' : '📍' }}
+                </button>
+              </div>
+            </div>
+          }
+        }
+
+        <!-- Typing indicator -->
+        @if (typingPeers.length > 0) {
+          <div class="typing-indicator">
+            <span class="typing-dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </span>
+            <span class="typing-text">
+              {{ typingPeers[0].senderName }}
+              @if (typingPeers.length > 1) {
+                + {{ typingPeers.length - 1 }} more
+              }
+              transmitting...
+            </span>
+          </div>
+        }
+      }
+
+      <!-- Bookmarks view -->
+      @if (isConnected && showBookmarks) {
+        @if (bookmarks.length === 0) {
+          <div class="chat-empty">
+            <div class="empty-icon">📌</div>
+            <div class="empty-text">NO BOOKMARKS</div>
+            <div class="empty-hint">Pin important messages to save them here</div>
+          </div>
+        }
+
+        @for (bookmark of bookmarks; track bookmark.id) {
+          <div class="bookmark-card">
+            <div class="bookmark-header">
+              <span class="bookmark-sender">{{ bookmark.senderName }}</span>
+              <span class="bookmark-channel">{{ bookmark.channelId === 'group' ? 'GROUP' : bookmark.channelId }}</span>
+              <button
+                class="bookmark-remove-btn"
+                (click)="removeBookmark($event, bookmark)"
+                title="Remove bookmark">
+                ✕
+              </button>
+            </div>
+            <div class="bookmark-text">{{ bookmark.text }}</div>
+            <div class="bookmark-time">
+              <span>{{ formatBookmarkTime(bookmark.messageTimestamp) }}</span>
+              <span class="bookmark-saved">Saved {{ formatBookmarkTime(bookmark.bookmarkedAt) }}</span>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Input bar (only show when connected and not in bookmarks view) -->
+    @if (isConnected && !showBookmarks) {
+      <div class="chat-input-bar">
+        <input
+          type="text"
+          class="chat-input halo-input"
+          [(ngModel)]="messageInput"
+          (keydown)="onInputKeydown($event)"
+          placeholder="Type a message..."
+          autocomplete="off"
+          id="lan-chat-message-input" />
+        <button
+          class="chat-send-btn"
+          [disabled]="!messageInput.trim()"
+          (click)="sendMessage()"
+          id="btn-lan-chat-send">
+          ⟐
+        </button>
+      </div>
+    }
+  </div>
+}

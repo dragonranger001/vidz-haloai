@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3">
+  <!-- Anchor & Ship Wheel / Compass -->
+  <circle cx="50" cy="50" r="43" stroke-width="2" opacity="0.8"/>
+  <circle cx="50" cy="50" r="11" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.6"/>
+  <!-- Stylized Anchor -->
+  <path d="M 50 16 L 50 74 M 35 30 L 65 30" stroke-width="4"/>
+  <path d="M 25 54 Q 25 79 50 79 Q 75 79 75 54" stroke-width="4"/>
+  <circle cx="50" cy="15" r="5.5" fill="none" stroke-width="3"/>
+</svg>

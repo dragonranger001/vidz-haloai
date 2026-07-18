@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3">
+  <!-- Tactical Shield outline -->
+  <path d="M 21 16 L 79 16 L 79 50 Q 79 79 50 89 Q 21 79 21 50 Z" stroke-width="4.5" stroke-linejoin="round"/>
+  <!-- Tactical Chevrons inside -->
+  <path d="M 36 36 L 50 50 L 64 36 M 36 49 L 50 63 L 64 49" stroke-width="3.5" stroke-linejoin="round"/>
+</svg>

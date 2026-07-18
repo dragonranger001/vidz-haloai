@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3">
+  <!-- Tactical crosshair and shield -->
+  <rect x="25" y="25" width="50" height="50" rx="6" stroke-width="4"/>
+  <circle cx="50" cy="50" r="16" stroke-dasharray="5 3"/>
+  <!-- Crosshair lines -->
+  <line x1="50" y1="9" x2="50" y2="91" stroke-width="2"/>
+  <line x1="9" y1="50" x2="91" y2="50" stroke-width="2"/>
+  <!-- Corner brackets -->
+  <path d="M 16 26 L 16 16 L 26 16 M 74 16 L 84 16 L 84 26 M 84 74 L 84 84 L 74 84 M 26 84 L 16 84 L 16 74" stroke-width="3"/>
+</svg>

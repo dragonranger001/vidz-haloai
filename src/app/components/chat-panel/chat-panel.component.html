@@ -1,0 +1,142 @@
+<!-- Minimized button -->
+@if (!isOpen) {
+  <button class="chat-fab" (click)="togglePanel()" id="btn-chat-toggle">
+    <span class="fab-icon-wrap">
+      <span class="fab-icon">{{ themeIcon }}</span>
+      <span class="fab-ring"></span>
+    </span>
+    <span class="fab-label">{{ personality.chatFabLabel }}</span>
+    <span class="fab-pulse"></span>
+  </button>
+}
+
+<!-- Chat panel -->
+@if (isOpen) {
+  <div class="chat-panel halo-panel" id="chat-panel">
+    <!-- Ambient particles -->
+    <div class="panel-particles">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+      <span class="particle p5"></span>
+    </div>
+
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="chat-icon">
+          <span class="icon-core">{{ themeIcon }}</span>
+          <span class="icon-ripple"></span>
+        </span>
+        <div class="chat-title-group">
+          <span class="chat-title">{{ personality.chatTitle }}</span>
+          <span class="chat-subtitle-label">{{ personality.aiName }}</span>
+        </div>
+      </div>
+
+      <div class="chat-header-center">
+        <span class="header-status-dot" [class.active]="!isTyping" [class.busy]="isTyping"></span>
+        <span class="header-status-text">{{ isTyping ? personality.statusBusy : personality.statusReady }}</span>
+      </div>
+
+      <button class="chat-minimize" (click)="togglePanel()" id="btn-chat-minimize">
+        <span class="minimize-icon">─</span>
+      </button>
+    </div>
+
+    <!-- Separator with energy line -->
+    <div class="header-energy-line"></div>
+
+    <!-- Messages -->
+    <div class="chat-messages" #messageList>
+      @if (messages.length === 0) {
+        <div class="chat-empty">
+          <div class="empty-icon-wrap">
+            <span class="empty-icon">{{ themeIcon }}</span>
+            <span class="empty-icon-ring ring-1"></span>
+            <span class="empty-icon-ring ring-2"></span>
+            <span class="empty-icon-ring ring-3"></span>
+          </div>
+          <div class="empty-text">{{ personality.emptyTitle }}</div>
+          <div class="empty-hint">{{ personality.emptyHint }}</div>
+          <div class="empty-line-decoration">
+            <span class="line-segment"></span>
+            <span class="line-dot"></span>
+            <span class="line-segment"></span>
+          </div>
+        </div>
+      }
+
+      @for (msg of messages; track trackMessage($index, msg)) {
+        @if (msg.role === 'system') {
+          <div class="msg-system">
+            <span class="system-line"></span>
+            <span class="msg-system-text">{{ msg.content }}</span>
+            <span class="system-line"></span>
+          </div>
+        } @else {
+          <div class="msg-bubble" [class.own]="msg.role === 'user'" [class.other]="msg.role === 'assistant'">
+            <div class="msg-glow"></div>
+            @if (msg.role === 'assistant') {
+              <div class="msg-sender">
+                <span class="sender-icon">{{ themeIcon }}</span>
+                {{ personality.aiName }}
+              </div>
+            }
+            <div class="msg-text">{{ msg.content }}</div>
+            <div class="msg-footer">
+              <span class="msg-time">{{ formatTime(msg.timestamp) }}</span>
+              @if (msg.role === 'user') {
+                <span class="msg-sent-indicator">SENT ✓</span>
+              }
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Typing indicator -->
+      @if (isTyping) {
+        <div class="typing-indicator">
+          <span class="typing-avatar">
+            <span class="typing-avatar-icon">{{ themeIcon }}</span>
+            <span class="typing-avatar-pulse"></span>
+          </span>
+          <div class="typing-body">
+            <span class="typing-dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </span>
+            <span class="typing-text">{{ typingText }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Input bar -->
+    <div class="input-energy-line"></div>
+    <div class="chat-input-bar">
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="chat-input halo-input"
+          [(ngModel)]="messageInput"
+          (keydown)="onInputKeydown($event)"
+          [disabled]="isTyping"
+          [placeholder]="personality.inputPlaceholder"
+          autocomplete="off"
+          id="chat-message-input" />
+        <span class="input-focus-glow"></span>
+      </div>
+      <button
+        class="chat-send-btn"
+        [disabled]="!messageInput.trim() || isTyping"
+        (click)="sendMessage()"
+        id="btn-chat-send">
+        <span class="send-icon">{{ personality.sendLabel }}</span>
+        <span class="send-ripple"></span>
+      </button>
+    </div>
+  </div>
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white">
+  <!-- Infinite Halo Ring / Master Chief Visor -->
+  <path d="M 20 40 Q 50 30 80 40 L 85 60 Q 50 70 15 60 Z" />
+  <path d="M 20 40 L 20 10 M 80 40 L 80 10" stroke="white" stroke-width="6"/>
+</svg>

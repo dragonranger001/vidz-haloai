@@ -1,0 +1,46 @@
+<div class="theme-selector" id="theme-selector">
+  <!-- Trigger button -->
+  <button class="theme-trigger" (click)="toggle()" [class.active]="isOpen" id="btn-theme-toggle">
+    <span class="trigger-swatch" [style.background]="currentTheme.preview"></span>
+    <span class="trigger-label">{{ currentTheme.name }}</span>
+    <span class="trigger-chevron" [class.open]="isOpen">▾</span>
+  </button>
+
+  <!-- Dropdown panel -->
+  @if (isOpen) {
+    <div class="theme-dropdown" (click)="$event.stopPropagation()">
+      <div class="dropdown-header">
+        <span class="dropdown-title">SELECT INTERFACE</span>
+      </div>
+
+      <div class="theme-grid">
+        @for (theme of themes; track theme.id) {
+          <button
+            class="theme-card"
+            [class.selected]="currentTheme.id === theme.id"
+            [attr.data-theme-preview]="theme.id"
+            (click)="selectTheme(theme)"
+            id="btn-theme-{{ theme.id }}">
+
+            <div class="card-glow" [style.--accent]="theme.preview"></div>
+            <div class="card-icon" [style.color]="theme.preview">{{ theme.icon }}</div>
+            <div class="card-name">{{ theme.name }}</div>
+            <div class="card-subtitle">{{ theme.subtitle }}</div>
+            <div class="card-swatch">
+              <span class="swatch-dot" [style.background]="theme.preview"></span>
+            </div>
+
+            @if (currentTheme.id === theme.id) {
+              <div class="card-active-badge">ACTIVE</div>
+            }
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Backdrop -->
+  @if (isOpen) {
+    <div class="theme-backdrop" (click)="isOpen = false"></div>
+  }
+</div>

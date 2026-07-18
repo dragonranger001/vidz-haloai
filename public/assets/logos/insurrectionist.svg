@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3">
+  <!-- Outer broken gear/ring -->
+  <circle cx="50" cy="50" r="43" stroke-dasharray="14 7" stroke-width="2" opacity="0.8"/>
+  <!-- Star of Rebellion -->
+  <polygon points="50,16 60,37 83,41 66,58 70,82 50,71 30,82 34,58 17,41 40,37" fill="white" stroke-linejoin="round"/>
+</svg>

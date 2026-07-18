@@ -1,0 +1,64 @@
+<div class="api-settings-overlay" [class.open]="isOpen">
+  <div class="api-settings-panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        <span class="icon">⬡</span>
+        <h2>API ENDPOINT CONFIGURATION</h2>
+      </div>
+      <button class="close-btn" (click)="togglePanel()">[ X ]</button>
+    </div>
+
+    <div class="panel-content">
+      <!-- List View -->
+      <div class="endpoints-list" *ngIf="!editingEndpoint">
+        <div class="list-header">
+          <h3>AVAILABLE NODES</h3>
+          <button class="action-btn" (click)="addNewEndpoint()">[ ADD NODE ]</button>
+        </div>
+
+        <div class="endpoint-card" *ngFor="let ep of endpoints" [class.active]="ep.id === activeEndpointId">
+          <div class="ep-info" (click)="selectEndpoint(ep.id)">
+            <div class="ep-name">{{ ep.name }}</div>
+            <div class="ep-url">{{ ep.url }}</div>
+          </div>
+          
+          <div class="ep-actions">
+            <button class="icon-btn test-btn" (click)="testConnection(ep)" title="Test Connection">
+              <span *ngIf="connectionStatus[ep.id] !== 'testing' && connectionStatus[ep.id] !== 'success' && connectionStatus[ep.id] !== 'fail'">[T]</span>
+              <span *ngIf="connectionStatus[ep.id] === 'testing'" class="testing">...</span>
+              <span *ngIf="connectionStatus[ep.id] === 'success'" class="success">OK</span>
+              <span *ngIf="connectionStatus[ep.id] === 'fail'" class="fail">ERR</span>
+            </button>
+            <button class="icon-btn" (click)="editEndpoint(ep)">[E]</button>
+            <button class="icon-btn delete" (click)="deleteEndpoint(ep.id)" *ngIf="endpoints.length > 1">[D]</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit View -->
+      <div class="endpoint-editor" *ngIf="editingEndpoint">
+        <h3>{{ editingEndpoint.id.startsWith('custom-') && endpoints.indexOf(editingEndpoint) === -1 ? 'ADD NEW NODE' : 'EDIT NODE' }}</h3>
+        
+        <div class="form-group">
+          <label>NODE DESIGNATION</label>
+          <input type="text" [(ngModel)]="editingEndpoint.name" placeholder="e.g. Local LM Studio">
+        </div>
+
+        <div class="form-group">
+          <label>UPLINK URL</label>
+          <input type="text" [(ngModel)]="editingEndpoint.url" placeholder="https://...">
+        </div>
+
+        <div class="form-group">
+          <label>AUTHORIZATION KEY</label>
+          <input type="password" [(ngModel)]="editingEndpoint.apiKey" placeholder="Bearer Token (Optional for some local nodes)">
+        </div>
+
+        <div class="form-actions">
+          <button class="action-btn save" (click)="saveEndpoint()">[ SAVE ]</button>
+          <button class="action-btn cancel" (click)="cancelEdit()">[ CANCEL ]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

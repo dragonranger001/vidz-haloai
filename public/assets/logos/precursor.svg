@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="2.5">
+  <!-- Ethereal spiral of creation / Star Roads -->
+  <path d="M 50 50 A 10 10 0 0 1 60 60 A 20 20 0 0 1 40 70 A 30 30 0 0 1 70 40 A 40 40 0 0 1 30 30 A 45 45 0 0 1 80 50" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="50" cy="50" r="4.5" fill="white"/>
+  <!-- Orbital path dots -->
+  <circle cx="20" cy="50" r="2.5" fill="white"/>
+  <circle cx="80" cy="50" r="2.5" fill="white"/>
+  <circle cx="50" cy="20" r="2.5" fill="white"/>
+  <circle cx="50" cy="80" r="2.5" fill="white"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3">
+  <!-- Outer high-tech circular radar rings -->
+  <circle cx="50" cy="50" r="45" stroke-dasharray="6 3" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="50" cy="50" r="41" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Outer Triangle / Shield (Pyramid of Knowledge) -->
+  <polygon points="50,15 13,77 87,77" stroke-width="3.5" stroke-linejoin="round"/>
+  
+  <!-- Inner geometric division lines -->
+  <line x1="50" y1="15" x2="50" y2="40" stroke-width="3"/>
+  <line x1="13" y1="77" x2="40" y2="61.5" stroke-width="3"/>
+  <line x1="87" y1="77" x2="60" y2="61.5" stroke-width="3"/>
+  
+  <!-- Central All-Seeing Eye (Surveillance / Intelligence) -->
+  <circle cx="50" cy="50" r="11" stroke-width="3" fill="none"/>
+  <circle cx="50" cy="50" r="4.5" fill="white"/>
+  
+  <!-- Outer HUD ticks / crosshairs -->
+  <path d="M 50 1 L 50 7 M 50 93 L 50 99 M 1 50 L 7 50 M 93 50 L 99 50" stroke-width="2"/>
+</svg>

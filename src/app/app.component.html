@@ -1,0 +1,56 @@
+<div class="home-layout" id="home-page">
+  <!-- HUD Header -->
+  <div style="position: relative; z-index: 10;">
+    <app-hud-header></app-hud-header>
+  </div>
+
+  <!-- Main content - ambient background -->
+  <main class="main-content">
+    <div class="ambient-bg">
+      <canvas id="particles-canvas" class="particles-canvas"></canvas>
+      <div class="ambient-orb orb-1"></div>
+      <div class="ambient-orb orb-2"></div>
+      <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <div class="welcome-message">
+      <div class="welcome-icon-wrap">
+        <span class="welcome-icon">{{ themeIcon }}</span>
+        <span class="welcome-ring r1"></span>
+        <span class="welcome-ring r2"></span>
+      </div>
+      <h1 class="welcome-title">{{ personality.headerTitle }}</h1>
+      <p class="welcome-sub">{{ personality.headerSubtitle }}</p>
+      <div class="welcome-line">
+        <span class="wl-seg"></span>
+        <span class="wl-dot"></span>
+        <span class="wl-seg"></span>
+      </div>
+      <p class="welcome-hint">Open the {{ personality.chatTitle }} panel to begin communication with {{ personality.aiName }}</p>
+    </div>
+  </main>
+
+  <!-- AI Chat panel overlay -->
+  <div style="position: fixed; inset: 0; pointer-events: none; z-index: 9999;">
+    <app-chat-panel style="pointer-events: auto;"></app-chat-panel>
+  </div>
+
+  <!-- LAN Chat panel overlay -->
+  <div style="position: fixed; inset: 0; pointer-events: none; z-index: 9999;">
+    <app-lan-chat-panel style="pointer-events: auto;"></app-lan-chat-panel>
+  </div>
+
+  <!-- API Settings Modal -->
+  <app-api-settings></app-api-settings>
+
+  <!-- Footer status bar -->
+  <footer class="status-bar">
+    <span class="status-bar-item">HALO AI v1.0</span>
+    <span class="status-bar-divider">|</span>
+    <span class="status-bar-item">ANGULAR 19</span>
+    <span class="status-bar-divider">|</span>
+    <span class="status-bar-item">{{ personality.footerTag }}</span>
+    <span class="status-bar-spacer"></span>
+    <span class="status-bar-item footer-accent">{{ personality.aiName }} ONLINE</span>
+  </footer>
+</div>

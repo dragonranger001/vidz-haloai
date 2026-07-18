@@ -1,0 +1,107 @@
+<div class="profile-settings" id="profile-settings">
+  <!-- Trigger button -->
+  <button class="settings-trigger" (click)="toggle()" [class.active]="isOpen" id="btn-settings-toggle">
+    <span class="trigger-icon">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </span>
+  </button>
+
+  <!-- Panel -->
+  @if (isOpen) {
+    <div class="settings-panel halo-panel" (click)="$event.stopPropagation()">
+      <div class="settings-header">
+        <span class="settings-title">OPERATIVE PROFILE</span>
+        <button class="close-btn" (click)="toggle()">✕</button>
+      </div>
+
+      @if (profile) {
+        <div class="settings-body">
+          <!-- Callsign -->
+          <div class="setting-group">
+            <label class="setting-label">NETWORK ALIAS (CALLSIGN)</label>
+            <div class="tag-input-row">
+              <input 
+                type="text" 
+                class="halo-input tag-input" 
+                [(ngModel)]="editingCallsign"
+                (keyup.enter)="saveCallsign()"
+                maxlength="20"
+                placeholder="ENTER CALLSIGN"
+              />
+              <button 
+                class="halo-btn halo-btn--primary save-tag-btn" 
+                (click)="saveCallsign()"
+                [class.saved]="saved"
+                [disabled]="!editingCallsign.trim() || editingCallsign === profile.callsign">
+                {{ saved ? 'SAVED' : 'APPLY' }}
+              </button>
+            </div>
+            <div class="setting-hint">Your identity across all network sessions</div>
+          </div>
+
+          <!-- Notification Sounds -->
+          <div class="setting-group">
+            <label class="setting-label">NOTIFICATION SOUNDS</label>
+            <button 
+              class="toggle-btn" 
+              [class.active]="profile.notificationSounds"
+              (click)="toggleSounds()">
+              
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label">{{ profile.notificationSounds ? 'ENABLED' : 'DISABLED' }}</span>
+            </button>
+          </div>
+
+          <!-- Auto-Accept Transfers -->
+          <div class="setting-group">
+            <label class="setting-label">AUTO-ACCEPT TRANSFERS</label>
+            <button 
+              class="toggle-btn" 
+              [class.active]="profile.autoAcceptTransfers"
+              (click)="toggleAutoAccept()">
+              
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+              <span class="toggle-label">{{ profile.autoAcceptTransfers ? 'ENABLED' : 'DISABLED' }}</span>
+            </button>
+            <div class="setting-hint">Automatically accept incoming file transfers</div>
+          </div>
+
+          <!-- Chat Font Size -->
+          <div class="setting-group">
+            <label class="setting-label">CHAT FONT SIZE</label>
+            <div class="font-size-row">
+              <button 
+                class="font-btn" 
+                [class.active]="profile.chatFontSize === 'small'"
+                (click)="setFontSize('small')">
+                A
+              </button>
+              <button 
+                class="font-btn" 
+                [class.active]="profile.chatFontSize === 'medium'"
+                (click)="setFontSize('medium')">
+                A
+              </button>
+              <button 
+                class="font-btn" 
+                [class.active]="profile.chatFontSize === 'large'"
+                (click)="setFontSize('large')">
+                A
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    
+    <!-- Backdrop for closing -->
+    <div class="settings-backdrop" (click)="isOpen = false"></div>
+  }
+</div>

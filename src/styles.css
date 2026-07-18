@@ -1,0 +1,1444 @@
+/* ═══════════════════════════════════════════════════════════════════
+   HALO LAN — Global Styles
+   Microsoft Halo-Inspired Futuristic UI Theme
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ─────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --halo-bg-deep: #050a15;
+  --halo-bg-panel: #0b1628;
+  --halo-bg-panel-hover: #0f1e38;
+  --halo-bg-surface: #101d30;
+  --halo-bg-overlay: rgba(5, 10, 21, 0.85);
+
+  /* Primary Halo Cyan (Classic Spartan HUD) */
+  --halo-cyan: #00f5ff;
+  --halo-cyan-glow: rgba(0, 245, 255, 0.3);
+  --halo-cyan-dim: rgba(0, 245, 255, 0.08);
+  --halo-cyan-border: rgba(0, 245, 255, 0.2);
+
+  /* Accent Colors */
+  --halo-blue: #0078d4;
+  --halo-blue-glow: rgba(0, 120, 212, 0.3);
+  --halo-orange: #ff6a00;
+  --halo-orange-glow: rgba(255, 106, 0, 0.3);
+  --halo-success: #00ff88;
+  --halo-success-glow: rgba(0, 255, 136, 0.3);
+  --halo-danger: #ff3366;
+  --halo-danger-glow: rgba(255, 51, 102, 0.3);
+
+  /* Text */
+  --halo-text: #c8e6f0;
+  --halo-text-bright: #e8f4f8;
+  --halo-text-muted: #5a7a8a;
+  --halo-text-dim: #2a4a5a;
+
+  /* Fonts */
+  --font-primary: 'Rajdhani', sans-serif;
+  --font-display: 'Orbitron', sans-serif;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Borders */
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Accent aliases (used by components — themes override these) */
+  --halo-accent: var(--halo-cyan);
+  --halo-accent-glow: var(--halo-cyan-glow);
+  --halo-accent-dim: var(--halo-cyan-dim);
+  --halo-accent-border: var(--halo-cyan-border);
+  --halo-accent-rgb: 0, 245, 255;
+
+  /* Panel gradient */
+  --halo-panel-from: rgba(11, 22, 40, 0.9);
+  --halo-panel-to: rgba(16, 29, 48, 0.7);
+
+  /* Theme Logo Background */
+  --halo-theme-logo: url('../public/assets/logos/unsc.svg');
+}
+
+/* ── Reset & Base ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  color: var(--halo-text);
+  background: var(--halo-bg-deep);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Hexagonal Grid Background ────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 120, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0, 245, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.15;
+  background-color: var(--halo-accent);
+  mask: var(--halo-theme-logo) no-repeat center / 500px;
+  -webkit-mask: var(--halo-theme-logo) no-repeat center / 500px;
+  pointer-events: none;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--halo-bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--halo-cyan-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--halo-cyan);
+}
+
+/* ── Typography ───────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--halo-text-bright);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+a {
+  color: var(--halo-cyan);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover {
+  color: var(--halo-text-bright);
+  text-shadow: 0 0 8px var(--halo-cyan-glow);
+}
+
+/* ── Glassmorphism Panel ──────────────────────────────────────────── */
+.halo-panel {
+  background: linear-gradient(
+    135deg,
+    var(--halo-panel-from) 0%,
+    var(--halo-panel-to) 100%
+  );
+  border: 1px solid var(--halo-accent-border);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 15px rgba(var(--halo-accent-rgb), 0.05),
+    inset 0 1px 0 rgba(var(--halo-accent-rgb), 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.halo-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--halo-accent) 50%,
+    transparent 100%
+  );
+  opacity: 0.5;
+}
+
+.halo-panel:hover {
+  border-color: rgba(var(--halo-accent-rgb), 0.35);
+  box-shadow:
+    0 0 25px rgba(var(--halo-accent-rgb), 0.1),
+    inset 0 1px 0 rgba(var(--halo-accent-rgb), 0.15);
+}
+
+/* ── Halo Button ──────────────────────────────────────────────────── */
+.halo-btn {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--halo-accent);
+  background: rgba(var(--halo-accent-rgb), 0.08);
+  border: 1px solid var(--halo-accent-border);
+  border-radius: var(--border-radius);
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.halo-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--halo-accent-glow) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+  border-radius: 50%;
+}
+
+.halo-btn:hover {
+  background: rgba(var(--halo-accent-rgb), 0.15);
+  border-color: var(--halo-accent);
+  box-shadow: 0 0 20px var(--halo-accent-glow), inset 0 0 20px rgba(var(--halo-accent-rgb), 0.05);
+  text-shadow: 0 0 8px var(--halo-accent-glow);
+}
+
+.halo-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.halo-btn:active {
+  transform: scale(0.97);
+}
+
+.halo-btn--primary {
+  background: linear-gradient(135deg, rgba(var(--halo-accent-rgb), 0.2) 0%, rgba(var(--halo-accent-rgb), 0.1) 100%);
+  border-color: var(--halo-accent);
+  box-shadow: 0 0 10px var(--halo-accent-glow);
+}
+
+.halo-btn--danger {
+  color: var(--halo-danger);
+  border-color: rgba(255, 51, 102, 0.3);
+  background: rgba(255, 51, 102, 0.08);
+}
+.halo-btn--danger:hover {
+  border-color: var(--halo-danger);
+  background: rgba(255, 51, 102, 0.15);
+  box-shadow: 0 0 20px var(--halo-danger-glow);
+  text-shadow: 0 0 8px var(--halo-danger-glow);
+}
+
+.halo-btn--success {
+  color: var(--halo-success);
+  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(0, 255, 136, 0.08);
+}
+
+/* ── Halo Input ───────────────────────────────────────────────────── */
+.halo-input {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--halo-text-bright);
+  background: rgba(var(--halo-accent-rgb), 0.04);
+  border: 1px solid var(--halo-accent-border);
+  border-radius: var(--border-radius);
+  padding: 10px 16px;
+  outline: none;
+  transition: all var(--transition-base);
+  width: 100%;
+}
+
+.halo-input:focus {
+  border-color: var(--halo-accent);
+  box-shadow: 0 0 15px var(--halo-accent-glow), inset 0 0 10px rgba(var(--halo-accent-rgb), 0.05);
+  background: rgba(var(--halo-accent-rgb), 0.08);
+}
+
+.halo-input::placeholder {
+  color: var(--halo-text-dim);
+  font-style: italic;
+}
+
+/* ── Status Indicators ────────────────────────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot--online {
+  background: var(--halo-success);
+  box-shadow: 0 0 8px var(--halo-success-glow);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.status-dot--offline {
+  background: var(--halo-text-dim);
+}
+
+.status-dot--transferring {
+  background: var(--halo-orange);
+  box-shadow: 0 0 8px var(--halo-orange-glow);
+  animation: pulse-glow 1s ease-in-out infinite;
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────── */
+.halo-progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(var(--halo-accent-rgb), 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.halo-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--halo-blue) 0%, var(--halo-accent) 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  position: relative;
+  box-shadow: 0 0 10px var(--halo-accent-glow);
+}
+
+.halo-progress__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4));
+  animation: progress-trail 1.5s ease-in-out infinite;
+}
+
+/* ── Animations ───────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+@keyframes scan-line {
+  0% { top: -2px; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes progress-trail {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes float-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes border-glow {
+  0%, 100% {
+    border-color: var(--halo-cyan-border);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.05);
+  }
+  50% {
+    border-color: rgba(0, 245, 255, 0.4);
+    box-shadow: 0 0 25px rgba(0, 245, 255, 0.15);
+  }
+}
+
+@keyframes holographic-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Utility Classes ──────────────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-primary { font-family: var(--font-primary); }
+.text-cyan { color: var(--halo-cyan); }
+.text-accent { color: var(--halo-accent); }
+.text-muted { color: var(--halo-text-muted); }
+.text-bright { color: var(--halo-text-bright); }
+.text-success { color: var(--halo-success); }
+.text-danger { color: var(--halo-danger); }
+.text-orange { color: var(--halo-orange); }
+
+.glow-cyan { text-shadow: 0 0 10px var(--halo-cyan-glow); }
+.glow-accent { text-shadow: 0 0 10px var(--halo-accent-glow); }
+.glow-box-cyan { box-shadow: 0 0 20px var(--halo-cyan-glow); }
+.glow-box-accent { box-shadow: 0 0 20px var(--halo-accent-glow); }
+
+.animate-float-in {
+  animation: float-in 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: ODST HELLJUMPER
+   Dark, gritty, rain-soaked tactical noir. Amber/yellow accents.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="odst"] {
+  --halo-bg-deep: #08090c;
+  --halo-bg-panel: #111318;
+  --halo-bg-panel-hover: #181b22;
+  --halo-bg-surface: #14161c;
+  --halo-bg-overlay: rgba(8, 9, 12, 0.9);
+
+  --halo-cyan: #f0a830;
+  --halo-cyan-glow: rgba(240, 168, 48, 0.3);
+  --halo-cyan-dim: rgba(240, 168, 48, 0.08);
+  --halo-cyan-border: rgba(240, 168, 48, 0.18);
+
+  --halo-accent: #f0a830;
+  --halo-accent-glow: rgba(240, 168, 48, 0.3);
+  --halo-accent-dim: rgba(240, 168, 48, 0.08);
+  --halo-accent-border: rgba(240, 168, 48, 0.18);
+  --halo-accent-rgb: 240, 168, 48;
+
+  --halo-blue: #8a7030;
+  --halo-blue-glow: rgba(138, 112, 48, 0.3);
+  --halo-orange: #e8c040;
+  --halo-orange-glow: rgba(232, 192, 64, 0.3);
+  --halo-success: #88cc44;
+  --halo-success-glow: rgba(136, 204, 68, 0.3);
+  --halo-danger: #e04040;
+  --halo-danger-glow: rgba(224, 64, 64, 0.3);
+
+  --halo-text: #b8b0a0;
+  --halo-text-bright: #e0d8c8;
+  --halo-text-muted: #6a6458;
+  --halo-text-dim: #3a3830;
+
+  --halo-panel-from: rgba(17, 19, 24, 0.92);
+  --halo-panel-to: rgba(20, 22, 28, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/odst.svg');
+}
+
+/* ODST: Override hex grid to amber (kept for ambient glow) */
+body[data-theme="odst"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(138, 112, 48, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(240, 168, 48, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(240, 168, 48, 0.02) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: COVENANT
+   Alien, organic, regal. Purple/violet/magenta accents.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="covenant"] {
+  --halo-bg-deep: #0a0515;
+  --halo-bg-panel: #150c28;
+  --halo-bg-panel-hover: #1e1238;
+  --halo-bg-surface: #180f2c;
+  --halo-bg-overlay: rgba(10, 5, 21, 0.9);
+
+  --halo-cyan: #b44dff;
+  --halo-cyan-glow: rgba(180, 77, 255, 0.3);
+  --halo-cyan-dim: rgba(180, 77, 255, 0.08);
+  --halo-cyan-border: rgba(180, 77, 255, 0.2);
+
+  --halo-accent: #b44dff;
+  --halo-accent-glow: rgba(180, 77, 255, 0.3);
+  --halo-accent-dim: rgba(180, 77, 255, 0.08);
+  --halo-accent-border: rgba(180, 77, 255, 0.2);
+  --halo-accent-rgb: 180, 77, 255;
+
+  --halo-blue: #6a30d4;
+  --halo-blue-glow: rgba(106, 48, 212, 0.3);
+  --halo-orange: #ff40a0;
+  --halo-orange-glow: rgba(255, 64, 160, 0.3);
+  --halo-success: #40e0a0;
+  --halo-success-glow: rgba(64, 224, 160, 0.3);
+  --halo-danger: #ff3060;
+  --halo-danger-glow: rgba(255, 48, 96, 0.3);
+
+  --halo-text: #d0c0e8;
+  --halo-text-bright: #ece0ff;
+  --halo-text-muted: #7a6890;
+  --halo-text-dim: #403458;
+
+  --halo-panel-from: rgba(21, 12, 40, 0.92);
+  --halo-panel-to: rgba(24, 15, 44, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/covenant.svg');
+}
+
+/* Covenant: Override hex grid to violet */
+body[data-theme="covenant"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(106, 48, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(180, 77, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 64, 160, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: FORERUNNER
+   Ancient, geometric, sacred. Orange/gold/warm accents.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="forerunner"] {
+  --halo-bg-deep: #0c0a05;
+  --halo-bg-panel: #1a1508;
+  --halo-bg-panel-hover: #261e0c;
+  --halo-bg-surface: #1e1808;
+  --halo-bg-overlay: rgba(12, 10, 5, 0.9);
+
+  --halo-cyan: #ff8c38;
+  --halo-cyan-glow: rgba(255, 140, 56, 0.3);
+  --halo-cyan-dim: rgba(255, 140, 56, 0.08);
+  --halo-cyan-border: rgba(255, 140, 56, 0.2);
+
+  --halo-accent: #ff8c38;
+  --halo-accent-glow: rgba(255, 140, 56, 0.3);
+  --halo-accent-dim: rgba(255, 140, 56, 0.08);
+  --halo-accent-border: rgba(255, 140, 56, 0.2);
+  --halo-accent-rgb: 255, 140, 56;
+
+  --halo-blue: #cc7020;
+  --halo-blue-glow: rgba(204, 112, 32, 0.3);
+  --halo-orange: #ffd060;
+  --halo-orange-glow: rgba(255, 208, 96, 0.3);
+  --halo-success: #a0e840;
+  --halo-success-glow: rgba(160, 232, 64, 0.3);
+  --halo-danger: #ff4830;
+  --halo-danger-glow: rgba(255, 72, 48, 0.3);
+
+  --halo-text: #d8c8a0;
+  --halo-text-bright: #f0e8d0;
+  --halo-text-muted: #8a7a58;
+  --halo-text-dim: #4a4028;
+
+  --halo-panel-from: rgba(26, 21, 8, 0.92);
+  --halo-panel-to: rgba(30, 24, 8, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/forerunner.svg');
+}
+
+/* Forerunner: Override hex grid to warm orange */
+body[data-theme="forerunner"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(204, 112, 32, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 140, 56, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 208, 96, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: NOBLE TEAM (REACH)
+   Steel blue, military tactical, overcast skies of Reach.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="noble"] {
+  --halo-bg-deep: #060a10;
+  --halo-bg-panel: #0c1420;
+  --halo-bg-panel-hover: #121c2c;
+  --halo-bg-surface: #0f1824;
+  --halo-bg-overlay: rgba(6, 10, 16, 0.9);
+
+  --halo-cyan: #6ea8d7;
+  --halo-cyan-glow: rgba(110, 168, 215, 0.3);
+  --halo-cyan-dim: rgba(110, 168, 215, 0.08);
+  --halo-cyan-border: rgba(110, 168, 215, 0.2);
+
+  --halo-accent: #6ea8d7;
+  --halo-accent-glow: rgba(110, 168, 215, 0.3);
+  --halo-accent-dim: rgba(110, 168, 215, 0.08);
+  --halo-accent-border: rgba(110, 168, 215, 0.2);
+  --halo-accent-rgb: 110, 168, 215;
+
+  --halo-blue: #4a7aa0;
+  --halo-blue-glow: rgba(74, 122, 160, 0.3);
+  --halo-orange: #d0a050;
+  --halo-orange-glow: rgba(208, 160, 80, 0.3);
+  --halo-success: #60c878;
+  --halo-success-glow: rgba(96, 200, 120, 0.3);
+  --halo-danger: #d04848;
+  --halo-danger-glow: rgba(208, 72, 72, 0.3);
+
+  --halo-text: #b0c4d8;
+  --halo-text-bright: #d8e4f0;
+  --halo-text-muted: #607080;
+  --halo-text-dim: #303c48;
+
+  --halo-panel-from: rgba(12, 20, 32, 0.92);
+  --halo-panel-to: rgba(15, 24, 36, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/noble.svg');
+}
+
+body[data-theme="noble"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(74, 122, 160, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(110, 168, 215, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(110, 168, 215, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: THE FLOOD
+   Toxic, bio-horror, parasitic corruption. Sickly green.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="flood"] {
+  --halo-bg-deep: #050a02;
+  --halo-bg-panel: #0c1408;
+  --halo-bg-panel-hover: #141e0e;
+  --halo-bg-surface: #101a0a;
+  --halo-bg-overlay: rgba(5, 10, 2, 0.9);
+
+  --halo-cyan: #7fff30;
+  --halo-cyan-glow: rgba(127, 255, 48, 0.3);
+  --halo-cyan-dim: rgba(127, 255, 48, 0.08);
+  --halo-cyan-border: rgba(127, 255, 48, 0.18);
+
+  --halo-accent: #7fff30;
+  --halo-accent-glow: rgba(127, 255, 48, 0.3);
+  --halo-accent-dim: rgba(127, 255, 48, 0.08);
+  --halo-accent-border: rgba(127, 255, 48, 0.18);
+  --halo-accent-rgb: 127, 255, 48;
+
+  --halo-blue: #50a020;
+  --halo-blue-glow: rgba(80, 160, 32, 0.3);
+  --halo-orange: #c0d020;
+  --halo-orange-glow: rgba(192, 208, 32, 0.3);
+  --halo-success: #40ff60;
+  --halo-success-glow: rgba(64, 255, 96, 0.3);
+  --halo-danger: #ff4020;
+  --halo-danger-glow: rgba(255, 64, 32, 0.3);
+
+  --halo-text: #a0c890;
+  --halo-text-bright: #c8e8b8;
+  --halo-text-muted: #587848;
+  --halo-text-dim: #2c3c20;
+
+  --halo-panel-from: rgba(12, 20, 8, 0.92);
+  --halo-panel-to: rgba(16, 26, 10, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/flood.svg');
+}
+
+body[data-theme="flood"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(80, 160, 32, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(127, 255, 48, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(192, 208, 32, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: BANISHED
+   Brutal, aggressive, crimson war machine.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="banished"] {
+  --halo-bg-deep: #0c0505;
+  --halo-bg-panel: #1a0c0c;
+  --halo-bg-panel-hover: #241212;
+  --halo-bg-surface: #1e0f0f;
+  --halo-bg-overlay: rgba(12, 5, 5, 0.9);
+
+  --halo-cyan: #e83030;
+  --halo-cyan-glow: rgba(232, 48, 48, 0.3);
+  --halo-cyan-dim: rgba(232, 48, 48, 0.08);
+  --halo-cyan-border: rgba(232, 48, 48, 0.2);
+
+  --halo-accent: #e83030;
+  --halo-accent-glow: rgba(232, 48, 48, 0.3);
+  --halo-accent-dim: rgba(232, 48, 48, 0.08);
+  --halo-accent-border: rgba(232, 48, 48, 0.2);
+  --halo-accent-rgb: 232, 48, 48;
+
+  --halo-blue: #a02020;
+  --halo-blue-glow: rgba(160, 32, 32, 0.3);
+  --halo-orange: #ff6830;
+  --halo-orange-glow: rgba(255, 104, 48, 0.3);
+  --halo-success: #d0a020;
+  --halo-success-glow: rgba(208, 160, 32, 0.3);
+  --halo-danger: #ff2020;
+  --halo-danger-glow: rgba(255, 32, 32, 0.3);
+
+  --halo-text: #d0b0b0;
+  --halo-text-bright: #f0d8d8;
+  --halo-text-muted: #806060;
+  --halo-text-dim: #4a3030;
+
+  --halo-panel-from: rgba(26, 12, 12, 0.92);
+  --halo-panel-to: rgba(30, 15, 15, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/banished.svg');
+}
+
+body[data-theme="banished"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(160, 32, 32, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232, 48, 48, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 104, 48, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: CORTANA
+   Cool AI electric blue, digital matrix, clean intelligence.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="cortana"] {
+  --halo-bg-deep: #040810;
+  --halo-bg-panel: #0a1424;
+  --halo-bg-panel-hover: #101e34;
+  --halo-bg-surface: #0c1828;
+  --halo-bg-overlay: rgba(4, 8, 16, 0.9);
+
+  --halo-cyan: #5090ff;
+  --halo-cyan-glow: rgba(80, 144, 255, 0.3);
+  --halo-cyan-dim: rgba(80, 144, 255, 0.08);
+  --halo-cyan-border: rgba(80, 144, 255, 0.2);
+
+  --halo-accent: #5090ff;
+  --halo-accent-glow: rgba(80, 144, 255, 0.3);
+  --halo-accent-dim: rgba(80, 144, 255, 0.08);
+  --halo-accent-border: rgba(80, 144, 255, 0.2);
+  --halo-accent-rgb: 80, 144, 255;
+
+  --halo-blue: #3060c0;
+  --halo-blue-glow: rgba(48, 96, 192, 0.3);
+  --halo-orange: #a070ff;
+  --halo-orange-glow: rgba(160, 112, 255, 0.3);
+  --halo-success: #40c0e0;
+  --halo-success-glow: rgba(64, 192, 224, 0.3);
+  --halo-danger: #ff4070;
+  --halo-danger-glow: rgba(255, 64, 112, 0.3);
+
+  --halo-text: #a8c0e8;
+  --halo-text-bright: #d0e0ff;
+  --halo-text-muted: #506888;
+  --halo-text-dim: #283848;
+
+  --halo-panel-from: rgba(10, 20, 36, 0.92);
+  --halo-panel-to: rgba(12, 24, 40, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/cortana.svg');
+}
+
+body[data-theme="cortana"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(48, 96, 192, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(80, 144, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(160, 112, 255, 0.04) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: INFINITE
+   Classic Master Chief green, Zeta Halo, iconic visor.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="infinite"] {
+  --halo-bg-deep: #040c08;
+  --halo-bg-panel: #0a1810;
+  --halo-bg-panel-hover: #102418;
+  --halo-bg-surface: #0e1c14;
+  --halo-bg-overlay: rgba(4, 12, 8, 0.9);
+
+  --halo-cyan: #00e87a;
+  --halo-cyan-glow: rgba(0, 232, 122, 0.3);
+  --halo-cyan-dim: rgba(0, 232, 122, 0.08);
+  --halo-cyan-border: rgba(0, 232, 122, 0.2);
+
+  --halo-accent: #00e87a;
+  --halo-accent-glow: rgba(0, 232, 122, 0.3);
+  --halo-accent-dim: rgba(0, 232, 122, 0.08);
+  --halo-accent-border: rgba(0, 232, 122, 0.2);
+  --halo-accent-rgb: 0, 232, 122;
+
+  --halo-blue: #00a050;
+  --halo-blue-glow: rgba(0, 160, 80, 0.3);
+  --halo-orange: #80e040;
+  --halo-orange-glow: rgba(128, 224, 64, 0.3);
+  --halo-success: #00ff88;
+  --halo-success-glow: rgba(0, 255, 136, 0.3);
+  --halo-danger: #ff3040;
+  --halo-danger-glow: rgba(255, 48, 64, 0.3);
+
+  --halo-text: #a0d8b8;
+  --halo-text-bright: #c8f0d8;
+  --halo-text-muted: #508868;
+  --halo-text-dim: #284438;
+
+  --halo-panel-from: rgba(10, 24, 16, 0.92);
+  --halo-panel-to: rgba(14, 28, 20, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/infinite.svg');
+}
+
+body[data-theme="infinite"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 160, 80, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 232, 122, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(128, 224, 64, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: INSURRECTION
+   Gritty rebel guerrilla — worn amber, ash grey, underground ops.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="insurrectionist"] {
+  --halo-bg-deep: #0a0a08;
+  --halo-bg-panel: #161410;
+  --halo-bg-panel-hover: #1e1c16;
+  --halo-bg-surface: #1a1812;
+  --halo-bg-overlay: rgba(10, 10, 8, 0.9);
+
+  --halo-cyan: #d4a030;
+  --halo-cyan-glow: rgba(212, 160, 48, 0.3);
+  --halo-cyan-dim: rgba(212, 160, 48, 0.08);
+  --halo-cyan-border: rgba(212, 160, 48, 0.18);
+
+  --halo-accent: #d4a030;
+  --halo-accent-glow: rgba(212, 160, 48, 0.3);
+  --halo-accent-dim: rgba(212, 160, 48, 0.08);
+  --halo-accent-border: rgba(212, 160, 48, 0.18);
+  --halo-accent-rgb: 212, 160, 48;
+
+  --halo-blue: #8a7838;
+  --halo-blue-glow: rgba(138, 120, 56, 0.3);
+  --halo-orange: #cc8820;
+  --halo-orange-glow: rgba(204, 136, 32, 0.3);
+  --halo-success: #90a848;
+  --halo-success-glow: rgba(144, 168, 72, 0.3);
+  --halo-danger: #c84830;
+  --halo-danger-glow: rgba(200, 72, 48, 0.3);
+
+  --halo-text: #b0a890;
+  --halo-text-bright: #d8d0b8;
+  --halo-text-muted: #706850;
+  --halo-text-dim: #3a3428;
+
+  --halo-panel-from: rgba(22, 20, 16, 0.92);
+  --halo-panel-to: rgba(26, 24, 18, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/insurrectionist.svg');
+}
+
+body[data-theme="insurrectionist"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(138, 120, 56, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 160, 48, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(204, 136, 32, 0.03) 0%, transparent 50%);
+}
+
+body[data-theme="insurrectionist"]::after {
+  opacity: 0.015;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: ANCIENT HUMAN
+   Lost golden civilization of Charum Hakkor — warm ivory, burnished gold.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="ancient-human"] {
+  --halo-bg-deep: #0c0a04;
+  --halo-bg-panel: #1a160a;
+  --halo-bg-panel-hover: #241e10;
+  --halo-bg-surface: #1e1a0c;
+  --halo-bg-overlay: rgba(12, 10, 4, 0.9);
+
+  --halo-cyan: #e8c870;
+  --halo-cyan-glow: rgba(232, 200, 112, 0.3);
+  --halo-cyan-dim: rgba(232, 200, 112, 0.08);
+  --halo-cyan-border: rgba(232, 200, 112, 0.18);
+
+  --halo-accent: #e8c870;
+  --halo-accent-glow: rgba(232, 200, 112, 0.3);
+  --halo-accent-dim: rgba(232, 200, 112, 0.08);
+  --halo-accent-border: rgba(232, 200, 112, 0.18);
+  --halo-accent-rgb: 232, 200, 112;
+
+  --halo-blue: #b09848;
+  --halo-blue-glow: rgba(176, 152, 72, 0.3);
+  --halo-orange: #f0d880;
+  --halo-orange-glow: rgba(240, 216, 128, 0.3);
+  --halo-success: #b8d058;
+  --halo-success-glow: rgba(184, 208, 88, 0.3);
+  --halo-danger: #d86040;
+  --halo-danger-glow: rgba(216, 96, 64, 0.3);
+
+  --halo-text: #c8b888;
+  --halo-text-bright: #e8dcc0;
+  --halo-text-muted: #887858;
+  --halo-text-dim: #484028;
+
+  --halo-panel-from: rgba(26, 22, 10, 0.92);
+  --halo-panel-to: rgba(30, 26, 12, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/ancient-human.svg');
+}
+
+body[data-theme="ancient-human"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(176, 152, 72, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232, 200, 112, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(240, 216, 128, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: PRECURSOR
+   Cosmic creators beyond comprehension — ethereal teal, starfield.
+   Neural physics transcending space and time.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="precursor"] {
+  --halo-bg-deep: #040a0c;
+  --halo-bg-panel: #0a1820;
+  --halo-bg-panel-hover: #10222c;
+  --halo-bg-surface: #0c1c24;
+  --halo-bg-overlay: rgba(4, 10, 12, 0.9);
+
+  --halo-cyan: #40e8d0;
+  --halo-cyan-glow: rgba(64, 232, 208, 0.3);
+  --halo-cyan-dim: rgba(64, 232, 208, 0.08);
+  --halo-cyan-border: rgba(64, 232, 208, 0.18);
+
+  --halo-accent: #40e8d0;
+  --halo-accent-glow: rgba(64, 232, 208, 0.3);
+  --halo-accent-dim: rgba(64, 232, 208, 0.08);
+  --halo-accent-border: rgba(64, 232, 208, 0.18);
+  --halo-accent-rgb: 64, 232, 208;
+
+  --halo-blue: #2098a0;
+  --halo-blue-glow: rgba(32, 152, 160, 0.3);
+  --halo-orange: #60d0e8;
+  --halo-orange-glow: rgba(96, 208, 232, 0.3);
+  --halo-success: #50f0b0;
+  --halo-success-glow: rgba(80, 240, 176, 0.3);
+  --halo-danger: #e04870;
+  --halo-danger-glow: rgba(224, 72, 112, 0.3);
+
+  --halo-text: #98d0c8;
+  --halo-text-bright: #c0f0e8;
+  --halo-text-muted: #508880;
+  --halo-text-dim: #284840;
+
+  --halo-panel-from: rgba(10, 24, 32, 0.92);
+  --halo-panel-to: rgba(12, 28, 36, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/precursor.svg');
+}
+
+body[data-theme="precursor"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(32, 152, 160, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(64, 232, 208, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(96, 208, 232, 0.04) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: MARINES
+   Olive drab, rugged, front-line UNSC infantry grit.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="marines"] {
+  --halo-bg-deep: #060a04;
+  --halo-bg-panel: #0e160a;
+  --halo-bg-panel-hover: #161e10;
+  --halo-bg-surface: #121a0c;
+  --halo-bg-overlay: rgba(6, 10, 4, 0.9);
+
+  --halo-cyan: #6a8c40;
+  --halo-cyan-glow: rgba(106, 140, 64, 0.3);
+  --halo-cyan-dim: rgba(106, 140, 64, 0.08);
+  --halo-cyan-border: rgba(106, 140, 64, 0.2);
+
+  --halo-accent: #6a8c40;
+  --halo-accent-glow: rgba(106, 140, 64, 0.3);
+  --halo-accent-dim: rgba(106, 140, 64, 0.08);
+  --halo-accent-border: rgba(106, 140, 64, 0.2);
+  --halo-accent-rgb: 106, 140, 64;
+
+  --halo-blue: #486828;
+  --halo-blue-glow: rgba(72, 104, 40, 0.3);
+  --halo-orange: #a09030;
+  --halo-orange-glow: rgba(160, 144, 48, 0.3);
+  --halo-success: #78b048;
+  --halo-success-glow: rgba(120, 176, 72, 0.3);
+  --halo-danger: #c04830;
+  --halo-danger-glow: rgba(192, 72, 48, 0.3);
+
+  --halo-text: #98a880;
+  --halo-text-bright: #c0d0a8;
+  --halo-text-muted: #587048;
+  --halo-text-dim: #2c3820;
+
+  --halo-panel-from: rgba(14, 22, 10, 0.92);
+  --halo-panel-to: rgba(18, 26, 12, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/marines.svg');
+}
+
+body[data-theme="marines"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(72, 104, 40, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(106, 140, 64, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(160, 144, 48, 0.03) 0%, transparent 50%);
+}
+
+body[data-theme="marines"]::after {
+  opacity: 0.02;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: ARMY
+   Desert tan, arid ops — UNSC Army ground forces. Khaki/sand.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="army"] {
+  --halo-bg-deep: #0a0804;
+  --halo-bg-panel: #181408;
+  --halo-bg-panel-hover: #201c10;
+  --halo-bg-surface: #1c180c;
+  --halo-bg-overlay: rgba(10, 8, 4, 0.9);
+
+  --halo-cyan: #c8a868;
+  --halo-cyan-glow: rgba(200, 168, 104, 0.3);
+  --halo-cyan-dim: rgba(200, 168, 104, 0.08);
+  --halo-cyan-border: rgba(200, 168, 104, 0.18);
+
+  --halo-accent: #c8a868;
+  --halo-accent-glow: rgba(200, 168, 104, 0.3);
+  --halo-accent-dim: rgba(200, 168, 104, 0.08);
+  --halo-accent-border: rgba(200, 168, 104, 0.18);
+  --halo-accent-rgb: 200, 168, 104;
+
+  --halo-blue: #907840;
+  --halo-blue-glow: rgba(144, 120, 64, 0.3);
+  --halo-orange: #d0b060;
+  --halo-orange-glow: rgba(208, 176, 96, 0.3);
+  --halo-success: #98b050;
+  --halo-success-glow: rgba(152, 176, 80, 0.3);
+  --halo-danger: #c05038;
+  --halo-danger-glow: rgba(192, 80, 56, 0.3);
+
+  --halo-text: #b8a888;
+  --halo-text-bright: #dcd0b0;
+  --halo-text-muted: #787058;
+  --halo-text-dim: #403828;
+
+  --halo-panel-from: rgba(24, 20, 8, 0.92);
+  --halo-panel-to: rgba(28, 24, 12, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/army.svg');
+}
+
+body[data-theme="army"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(144, 120, 64, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(200, 168, 104, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(208, 176, 96, 0.03) 0%, transparent 50%);
+}
+
+body[data-theme="army"]::after {
+  opacity: 0.018;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: AIR FORCE
+   High-altitude skies, crisp blue, UNSC aerospace superiority.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="airforce"] {
+  --halo-bg-deep: #040810;
+  --halo-bg-panel: #0c1424;
+  --halo-bg-panel-hover: #141e34;
+  --halo-bg-surface: #101a2c;
+  --halo-bg-overlay: rgba(4, 8, 16, 0.9);
+
+  --halo-cyan: #68b0e8;
+  --halo-cyan-glow: rgba(104, 176, 232, 0.3);
+  --halo-cyan-dim: rgba(104, 176, 232, 0.08);
+  --halo-cyan-border: rgba(104, 176, 232, 0.2);
+
+  --halo-accent: #68b0e8;
+  --halo-accent-glow: rgba(104, 176, 232, 0.3);
+  --halo-accent-dim: rgba(104, 176, 232, 0.08);
+  --halo-accent-border: rgba(104, 176, 232, 0.2);
+  --halo-accent-rgb: 104, 176, 232;
+
+  --halo-blue: #4888c0;
+  --halo-blue-glow: rgba(72, 136, 192, 0.3);
+  --halo-orange: #90c8f0;
+  --halo-orange-glow: rgba(144, 200, 240, 0.3);
+  --halo-success: #58c8a0;
+  --halo-success-glow: rgba(88, 200, 160, 0.3);
+  --halo-danger: #d05050;
+  --halo-danger-glow: rgba(208, 80, 80, 0.3);
+
+  --halo-text: #a8c8e0;
+  --halo-text-bright: #d0e8f8;
+  --halo-text-muted: #587898;
+  --halo-text-dim: #2c3c50;
+
+  --halo-panel-from: rgba(12, 20, 36, 0.92);
+  --halo-panel-to: rgba(16, 26, 44, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/airforce.svg');
+}
+
+body[data-theme="airforce"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(72, 136, 192, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(104, 176, 232, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(144, 200, 240, 0.04) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: NAVY
+   Deep ocean steel, UNSC Fleet Command — authoritative, vast, cold.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="navy"] {
+  --halo-bg-deep: #04060c;
+  --halo-bg-panel: #0a0e1c;
+  --halo-bg-panel-hover: #101628;
+  --halo-bg-surface: #0c1220;
+  --halo-bg-overlay: rgba(4, 6, 12, 0.92);
+
+  --halo-cyan: #3868a8;
+  --halo-cyan-glow: rgba(56, 104, 168, 0.3);
+  --halo-cyan-dim: rgba(56, 104, 168, 0.08);
+  --halo-cyan-border: rgba(56, 104, 168, 0.22);
+
+  --halo-accent: #3868a8;
+  --halo-accent-glow: rgba(56, 104, 168, 0.3);
+  --halo-accent-dim: rgba(56, 104, 168, 0.08);
+  --halo-accent-border: rgba(56, 104, 168, 0.22);
+  --halo-accent-rgb: 56, 104, 168;
+
+  --halo-blue: #284880;
+  --halo-blue-glow: rgba(40, 72, 128, 0.3);
+  --halo-orange: #5080c0;
+  --halo-orange-glow: rgba(80, 128, 192, 0.3);
+  --halo-success: #4890a0;
+  --halo-success-glow: rgba(72, 144, 160, 0.3);
+  --halo-danger: #c04040;
+  --halo-danger-glow: rgba(192, 64, 64, 0.3);
+
+  --halo-text: #90a0b8;
+  --halo-text-bright: #b8c8e0;
+  --halo-text-muted: #506070;
+  --halo-text-dim: #283040;
+
+  --halo-panel-from: rgba(10, 14, 28, 0.94);
+  --halo-panel-to: rgba(12, 18, 32, 0.78);
+
+  --halo-theme-logo: url('../public/assets/logos/navy.svg');
+}
+
+body[data-theme="navy"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(40, 72, 128, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(56, 104, 168, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(80, 128, 192, 0.04) 0%, transparent 50%);
+}
+
+body[data-theme="navy"]::after {
+  opacity: 0.02;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: SANGHELIOS
+   Arbiter's Keep — Sangheili honor, bronze blades, crimson suns.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="sanghelios"] {
+  --halo-bg-deep: #0c0804;
+  --halo-bg-panel: #1c140a;
+  --halo-bg-panel-hover: #281c10;
+  --halo-bg-surface: #20180c;
+  --halo-bg-overlay: rgba(12, 8, 4, 0.9);
+
+  --halo-cyan: #c87040;
+  --halo-cyan-glow: rgba(200, 112, 64, 0.3);
+  --halo-cyan-dim: rgba(200, 112, 64, 0.08);
+  --halo-cyan-border: rgba(200, 112, 64, 0.2);
+
+  --halo-accent: #c87040;
+  --halo-accent-glow: rgba(200, 112, 64, 0.3);
+  --halo-accent-dim: rgba(200, 112, 64, 0.08);
+  --halo-accent-border: rgba(200, 112, 64, 0.2);
+  --halo-accent-rgb: 200, 112, 64;
+
+  --halo-blue: #905030;
+  --halo-blue-glow: rgba(144, 80, 48, 0.3);
+  --halo-orange: #e09050;
+  --halo-orange-glow: rgba(224, 144, 80, 0.3);
+  --halo-success: #c0a040;
+  --halo-success-glow: rgba(192, 160, 64, 0.3);
+  --halo-danger: #d03828;
+  --halo-danger-glow: rgba(208, 56, 40, 0.3);
+
+  --halo-text: #c8a888;
+  --halo-text-bright: #e8d0b0;
+  --halo-text-muted: #806848;
+  --halo-text-dim: #443020;
+
+  --halo-panel-from: rgba(28, 20, 10, 0.92);
+  --halo-panel-to: rgba(32, 24, 12, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/sanghelios.svg');
+}
+
+body[data-theme="sanghelios"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(144, 80, 48, 0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(200, 112, 64, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(224, 144, 80, 0.04) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: ONI
+   Stealth black ops, secure quantum data streams. Midnight charcoal & cyan.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="oni"] {
+  --halo-bg-deep: #08090a;
+  --halo-bg-panel: #121417;
+  --halo-bg-panel-hover: #1b1e22;
+  --halo-bg-surface: #15171a;
+  --halo-bg-overlay: rgba(8, 9, 10, 0.94);
+
+  --halo-cyan: #64748b;
+  --halo-cyan-glow: rgba(100, 116, 139, 0.25);
+  --halo-cyan-dim: rgba(100, 116, 139, 0.06);
+  --halo-cyan-border: rgba(100, 116, 139, 0.16);
+
+  --halo-accent: #64748b;
+  --halo-accent-glow: rgba(100, 116, 139, 0.25);
+  --halo-accent-dim: rgba(100, 116, 139, 0.06);
+  --halo-accent-border: rgba(100, 116, 139, 0.16);
+  --halo-accent-rgb: 100, 116, 139;
+
+  --halo-blue: #546e7a;
+  --halo-blue-glow: rgba(84, 110, 122, 0.25);
+  --halo-orange: #cfd8dc;
+  --halo-orange-glow: rgba(207, 216, 220, 0.25);
+  --halo-success: #eceff1;
+  --halo-success-glow: rgba(236, 239, 241, 0.25);
+  --halo-danger: #e53935;
+  --halo-danger-glow: rgba(229, 57, 53, 0.25);
+
+  --halo-text: #a6b6c0;
+  --halo-text-bright: #ffffff;
+  --halo-text-muted: #607d8b;
+  --halo-text-dim: #37474f;
+
+  --halo-panel-from: rgba(18, 20, 23, 0.94);
+  --halo-panel-to: rgba(24, 27, 31, 0.78);
+
+  --halo-theme-logo: url('../public/assets/logos/oni.svg');
+}
+
+body[data-theme="oni"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(84, 110, 122, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(176, 190, 197, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(207, 216, 220, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: UNSC UEG
+   Bureaucratic, clean, diplomatic blue and white.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="ueg"] {
+  --halo-bg-deep: #051020;
+  --halo-bg-panel: #0a1a33;
+  --halo-bg-panel-hover: #10264d;
+  --halo-bg-surface: #0c1e3d;
+  --halo-bg-overlay: rgba(5, 16, 32, 0.9);
+
+  --halo-cyan: #f59e0b;
+  --halo-cyan-glow: rgba(245, 158, 11, 0.3);
+  --halo-cyan-dim: rgba(245, 158, 11, 0.08);
+  --halo-cyan-border: rgba(245, 158, 11, 0.2);
+
+  --halo-accent: #f59e0b;
+  --halo-accent-glow: rgba(245, 158, 11, 0.3);
+  --halo-accent-dim: rgba(245, 158, 11, 0.08);
+  --halo-accent-border: rgba(245, 158, 11, 0.2);
+  --halo-accent-rgb: 245, 158, 11;
+
+  --halo-blue: #3377ff;
+  --halo-blue-glow: rgba(51, 119, 255, 0.3);
+  --halo-orange: #ffbb33;
+  --halo-orange-glow: rgba(255, 187, 51, 0.3);
+  --halo-success: #33cc66;
+  --halo-success-glow: rgba(51, 204, 102, 0.3);
+  --halo-danger: #ff4444;
+  --halo-danger-glow: rgba(255, 68, 68, 0.3);
+
+  --halo-text: #cce0ff;
+  --halo-text-bright: #ffffff;
+  --halo-text-muted: #6699ff;
+  --halo-text-dim: #3366cc;
+
+  --halo-panel-from: rgba(10, 26, 51, 0.92);
+  --halo-panel-to: rgba(14, 34, 66, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/unsc.svg');
+}
+
+body[data-theme="ueg"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(51, 119, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 85, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 187, 51, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: BLOODSTARS
+   Brutal, visceral, deep dark crimson for Spartan hunters.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="bloodstars"] {
+  --halo-bg-deep: #0a0202;
+  --halo-bg-panel: #140505;
+  --halo-bg-panel-hover: #1f0a0a;
+  --halo-bg-surface: #1a0808;
+  --halo-bg-overlay: rgba(10, 2, 2, 0.9);
+
+  --halo-cyan: #ff4d00;
+  --halo-cyan-glow: rgba(255, 77, 0, 0.3);
+  --halo-cyan-dim: rgba(255, 77, 0, 0.08);
+  --halo-cyan-border: rgba(255, 77, 0, 0.2);
+
+  --halo-accent: #ff4d00;
+  --halo-accent-glow: rgba(255, 77, 0, 0.3);
+  --halo-accent-dim: rgba(255, 77, 0, 0.08);
+  --halo-accent-border: rgba(255, 77, 0, 0.2);
+  --halo-accent-rgb: 255, 77, 0;
+
+  --halo-blue: #cc3d00;
+  --halo-blue-glow: rgba(204, 61, 0, 0.3);
+  --halo-orange: #ff751a;
+  --halo-orange-glow: rgba(255, 117, 26, 0.3);
+  --halo-success: #ffaa00;
+  --halo-success-glow: rgba(255, 170, 0, 0.3);
+  --halo-danger: #cc0000;
+  --halo-danger-glow: rgba(204, 0, 0, 0.3);
+
+  --halo-text: #e6b8a1;
+  --halo-text-bright: #ffccb3;
+  --halo-text-muted: #995c33;
+  --halo-text-dim: #66331a;
+
+  --halo-panel-from: rgba(20, 5, 5, 0.92);
+  --halo-panel-to: rgba(26, 8, 8, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/banished.svg');
+}
+
+body[data-theme="bloodstars"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(204, 61, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 77, 0, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 117, 26, 0.03) 0%, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME: SILENT SHADOW
+   Deep stealth indigo, assassin operations, pure dark void.
+   ═══════════════════════════════════════════════════════════════════ */
+body[data-theme="silentshadow"] {
+  --halo-bg-deep: #05020a;
+  --halo-bg-panel: #0a0514;
+  --halo-bg-panel-hover: #100a1f;
+  --halo-bg-surface: #0d081a;
+  --halo-bg-overlay: rgba(5, 2, 10, 0.9);
+
+  --halo-cyan: #300a5a;
+  --halo-cyan-glow: rgba(48, 10, 90, 0.4);
+  --halo-cyan-dim: rgba(48, 10, 90, 0.1);
+  --halo-cyan-border: rgba(48, 10, 90, 0.3);
+
+  --halo-accent: #5a14a0;
+  --halo-accent-glow: rgba(90, 20, 160, 0.4);
+  --halo-accent-dim: rgba(90, 20, 160, 0.1);
+  --halo-accent-border: rgba(90, 20, 160, 0.3);
+  --halo-accent-rgb: 90, 20, 160;
+
+  --halo-blue: #200540;
+  --halo-blue-glow: rgba(32, 5, 64, 0.3);
+  --halo-orange: #a020d0;
+  --halo-orange-glow: rgba(160, 32, 208, 0.3);
+  --halo-success: #6020a0;
+  --halo-success-glow: rgba(96, 32, 160, 0.3);
+  --halo-danger: #c02060;
+  --halo-danger-glow: rgba(192, 32, 96, 0.3);
+
+  --halo-text: #8b7ca6;
+  --halo-text-bright: #bca8e0;
+  --halo-text-muted: #534573;
+  --halo-text-dim: #2f2545;
+
+  --halo-panel-from: rgba(10, 5, 20, 0.92);
+  --halo-panel-to: rgba(14, 8, 26, 0.75);
+
+  --halo-theme-logo: url('../public/assets/logos/covenant.svg');
+}
+
+body[data-theme="silentshadow"]::before {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(32, 5, 64, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(90, 20, 160, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(160, 32, 208, 0.05) 0%, transparent 50%);
+}
+
+/* ── Smooth Theme Transition ─────────────────────────────────────── */
+body.theme-transitioning {
+  filter: blur(12px) brightness(0.6);
+  pointer-events: none;
+}
+
+body {
+  transition: background-color 0.5s ease, color 0.3s ease, filter 0.3s ease-in-out;
+}
+
+.halo-panel,
+.halo-btn,
+.halo-input {
+  transition: all var(--transition-base),
+              background-color 0.4s ease,
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+}
